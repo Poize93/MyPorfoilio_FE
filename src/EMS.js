@@ -243,7 +243,7 @@ export default function EMS() {
                 <TextField
                   variant="filled"
                   size="small"
-                  label="SearchBy Filter"
+                  label="Search(Name/Dept/Position)"
                   onChange={(e) => setFilterValue(e.target.value)}
                 />
                 <Table>
