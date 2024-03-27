@@ -16,9 +16,13 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
 
   const [registrationStatus, setRegistrationStatus] = useState(true);
 
+  const hostName = "http://localhost:3001";
+
+  console.log(process.env, "process", hostName);
+
   const registerFunction = () => {
     const fetchFunction = async () => {
-      const response = await fetch("http://localhost:3001/registration", {
+      const response = await fetch(`${hostName}/registration`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -41,7 +45,7 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
 
   const loginFunction = () => {
     const fetchFunction = async () => {
-      const loggingIn = fetch("http://localhost:3001/login", {
+      const loggingIn = fetch(`${hostName}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

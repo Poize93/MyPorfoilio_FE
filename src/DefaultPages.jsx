@@ -1,5 +1,6 @@
 import React from "react";
 import PageNotFound from "./PageNotFound";
+import Interests from "./interests";
 import EMS from "./EMS";
 import HomePage from "./HomePage";
 import { Route, Routes } from "react-router-dom";
@@ -14,7 +15,8 @@ export default function DefaultPage({ setPopUp }) {
         <Route path="/home" element={<HomePage />} />
         <Route path="/ems" element={<EMS />} />
         <Route path="/contactMe" element={<ContactMe />} />
-        {/* <Route path="*" element={<PageNotFound />} /> */}
+        <Route path="/interests" element={<Interests />} />
+        {/* <Route path="*" element={<PageNotFound />} /> Interests*/}
       </Routes>{" "}
     </>
   );

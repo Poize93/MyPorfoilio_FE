@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { Skills, personalInfo, education, Exprience } from "./dummyData";
 
 // also show salary
+// resume pdf download
 
 export default function HomePage() {
   return (

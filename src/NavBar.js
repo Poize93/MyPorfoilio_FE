@@ -18,6 +18,7 @@ export default function NavBar({ setPopUp }) {
     { name: "Home", link: "/home" },
     { name: "EMS", link: "/ems" },
     { name: "Contact Me", link: "/contactMe" },
+    { name: "Interests", link: "interests" },
   ];
   return (
     <nav

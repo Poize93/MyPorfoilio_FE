@@ -32,10 +32,11 @@ export default function EMS() {
     });
   };
 
-  console.log(editEmployeeID, employeeList, "fffffffffff");
+  const hostName = "http://localhost:3001";
+
   const addEmployee = async () => {
     try {
-      const response = await fetch("http://localhost:3001/addEmployee", {
+      const response = await fetch(`${hostName}/addEmployee`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +58,7 @@ export default function EMS() {
 
   const getAllEmployee = async () => {
     try {
-      const response = await fetch("http://localhost:3001/allEmployee");
+      const response = await fetch(`${hostName}/allEmployee`);
       response.json().then((result) => setEmployeeList(result.reverse()));
     } catch (err) {
       console.log(err);
@@ -67,20 +68,17 @@ export default function EMS() {
   const handleButton = async (button, employee) => {
     if (button === "Edit") {
       setEditEmployeeID(employee?._id);
-      const response = await fetch(
-        `http://localhost:3001/getEmployee/${employee?._id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${hostName}/getEmployee/${employee?._id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       response.json().then((result) => setEmployeeDetails(result[0]));
       console.log(response, "responseresponse123");
     } else {
       const response = await fetch(
-        `http://localhost:3001/deleteEmployee/${employee?._id}`,
+        `${hostName}/deleteEmployee/${employee?._id}`,
         {
           method: "DELETE",
           headers: {
@@ -97,7 +95,7 @@ export default function EMS() {
 
   const editEmployee = async () => {
     const response = await fetch(
-      `http://localhost:3001/updateEmployee/${editEmployeeID}`,
+      `${hostName}/updateEmployee/${editEmployeeID}`,
       {
         method: "PUT",
         headers: {
@@ -117,6 +115,10 @@ export default function EMS() {
     return type === "salary" ? "number" : "";
   };
 
+  const [filterValue, setFilterValue] = React.useState("");
+
+  console.log(filterValue, "filterValuefilterValue");
+
   function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -125,156 +127,187 @@ export default function EMS() {
     <>
       <Box
         style={{
-          maxWidth: "60%",
-          margin: "auto",
+          // maxWidth: "60%",
+          margin: "auto 50px",
         }}
       >
         <h1>Employee Management System</h1>
-        {!!editEmployeeID && (
-          <h6>
-            Updating Details of{" "}
-            <span style={{ fontWeight: "bold", fontSize: "18px" }}>
-              "{employeeDetails?.name?.toUpperCase()}"
-            </span>{" "}
-          </h6>
-        )}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "Center",
-            alignContent: "center",
-          }}
-        >
-          {employees?.map((item) => (
-            <>
-              <TextField
-                id={item}
-                label={item.toUpperCase()}
-                variant="outlined"
-                name={item}
-                required
-                type={typeFunction(item)}
-                value={employeeDetails[item]}
-                style={{ width: "60%", margin: "10px auto" }}
-                onChange={(e) => {
-                  setEmployeeDetails({
-                    ...employeeDetails,
-                    [item]: e.target.value,
-                  });
-                }}
-              />{" "}
-              {item === "email" && !isValidEmail(employeeDetails[item]) && (
-                <Typography
-                  style={{
-                    fontSize: "12px",
-                    color: "red",
-                    textAlign: "center",
-                  }}
-                >
-                  Enter Valid EmailID
-                </Typography>
-              )}
-            </>
-          ))}
-
-          {!!editEmployeeID ? (
-            <Box className="d-flex">
-              {" "}
-              <Button
-                variant="contained"
-                disabled={
-                  employeeDetails?.department &&
-                  employeeDetails?.email &&
-                  employeeDetails?.name &&
-                  employeeDetails?.position &&
-                  employeeDetails?.salary &&
-                  isValidEmail(employeeDetails?.email)
-                    ? false
-                    : true
-                }
-                onClick={editEmployee}
-                style={{ width: "20%", margin: "auto" }}
-              >
-                Update Employee
-              </Button>{" "}
-              <Button
-                variant="contained"
-                onClick={() => {
-                  setEditEmployeeID("");
-                  refereshDetails();
-                }}
-                style={{ width: "20%", margin: "auto" }}
-              >
-                Cancel Update
-              </Button>
-            </Box>
-          ) : (
-            <Button
-              variant="contained"
-              disabled={
-                employeeDetails?.department &&
-                employeeDetails?.email &&
-                employeeDetails?.name &&
-                employeeDetails?.position &&
-                employeeDetails?.salary &&
-                isValidEmail(employeeDetails?.email)
-                  ? false
-                  : true
-              }
-              onClick={addEmployee}
-              style={{ width: "20%", margin: "auto" }}
-            >
-              Add Employee
-            </Button>
-          )}
-
-          {!!employeeList?.length && (
-            <div>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {[
-                      "name",
-                      "email",
-                      "position",
-                      "department",
-                      "salary",
-                      "Actions",
-                    ]?.map((item) => (
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        {item?.toLocaleUpperCase()}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {employeeList?.map((item) => (
-                    <TableRow
+        <Box className="d-flex">
+          <Box
+            style={{
+              width: "40%",
+              margin: "10px",
+            }}
+          >
+            {!!editEmployeeID && (
+              <h6>
+                Updating Details of{" "}
+                <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                  "{employeeDetails?.name?.toUpperCase()}"
+                </span>{" "}
+              </h6>
+            )}
+            <Box className="d-flex flex-column">
+              {employees?.map((item) => (
+                <>
+                  <TextField
+                    id={item}
+                    label={item.toUpperCase()}
+                    variant="outlined"
+                    name={item}
+                    required
+                    type={typeFunction(item)}
+                    value={employeeDetails[item]}
+                    style={{ width: "60%", margin: "10px auto" }}
+                    onChange={(e) => {
+                      setEmployeeDetails({
+                        ...employeeDetails,
+                        [item]: e.target.value,
+                      });
+                    }}
+                  />{" "}
+                  {item === "email" && !isValidEmail(employeeDetails[item]) && (
+                    <Typography
                       style={{
-                        border:
-                          item?._id === editEmployeeID ? "2px black solid" : "",
+                        fontSize: "12px",
+                        color: "red",
+                        textAlign: "center",
                       }}
                     >
-                      <TableCell>{item?.name}</TableCell>{" "}
-                      <TableCell>{item?.email}</TableCell>{" "}
-                      <TableCell>{item?.position}</TableCell>{" "}
-                      <TableCell>{item?.department}</TableCell>{" "}
-                      <TableCell>{item?.salary}</TableCell>{" "}
-                      <TableCell>
-                        {["Edit", "Delete"]?.map((btnName) => (
-                          <Button onClick={() => handleButton(btnName, item)}>
-                            {btnName}
-                          </Button>
-                        ))}
-                      </TableCell>
+                      Enter Valid EmailID
+                    </Typography>
+                  )}
+                </>
+              ))}
+
+              {!!editEmployeeID ? (
+                <Box className="d-flex">
+                  {" "}
+                  <Button
+                    variant="contained"
+                    disabled={
+                      employeeDetails?.department &&
+                      employeeDetails?.email &&
+                      employeeDetails?.name &&
+                      employeeDetails?.position &&
+                      employeeDetails?.salary &&
+                      isValidEmail(employeeDetails?.email)
+                        ? false
+                        : true
+                    }
+                    onClick={editEmployee}
+                    style={{ width: "20%", margin: "auto" }}
+                  >
+                    Update Employee
+                  </Button>{" "}
+                  <Button
+                    variant="contained"
+                    onClick={() => {
+                      setEditEmployeeID("");
+                      refereshDetails();
+                    }}
+                    style={{ width: "20%", margin: "auto" }}
+                  >
+                    Cancel Update
+                  </Button>
+                </Box>
+              ) : (
+                <Button
+                  variant="contained"
+                  disabled={
+                    employeeDetails?.department &&
+                    employeeDetails?.email &&
+                    employeeDetails?.name &&
+                    employeeDetails?.position &&
+                    employeeDetails?.salary &&
+                    isValidEmail(employeeDetails?.email)
+                      ? false
+                      : true
+                  }
+                  onClick={addEmployee}
+                  style={{ width: "20%", margin: "auto" }}
+                >
+                  Add Employee
+                </Button>
+              )}
+            </Box>
+          </Box>
+          <Box
+            style={{
+              width: "60%",
+              margin: "10px",
+            }}
+          >
+            {!!employeeList?.length && (
+              <div>
+                <TextField
+                  variant="filled"
+                  size="small"
+                  label="SearchBy Filter"
+                  onChange={(e) => setFilterValue(e.target.value)}
+                />
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {[
+                        "name",
+                        "email",
+                        "position",
+                        "department",
+                        "salary",
+                        "Actions",
+                      ]?.map((item) => (
+                        <TableCell sx={{ fontWeight: "bold" }}>
+                          {item?.toLocaleUpperCase()}
+                        </TableCell>
+                      ))}
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-        </div>
+                  </TableHead>
+                  <TableBody>
+                    {employeeList
+                      ?.filter(
+                        (fltr) =>
+                          fltr?.name
+                            .toLowerCase()
+                            ?.includes(filterValue.toLowerCase()) ||
+                          fltr?.department
+                            .toLowerCase()
+                            ?.includes(filterValue.toLowerCase()) ||
+                          fltr?.position
+                            .toLowerCase()
+                            ?.includes(filterValue.toLowerCase())
+                      )
+                      ?.map((item) => (
+                        <TableRow
+                          style={{
+                            border:
+                              item?._id === editEmployeeID
+                                ? "2px black solid"
+                                : "",
+                          }}
+                        >
+                          <TableCell>{item?.name}</TableCell>{" "}
+                          <TableCell>{item?.email}</TableCell>{" "}
+                          <TableCell>{item?.position}</TableCell>{" "}
+                          <TableCell>{item?.department}</TableCell>{" "}
+                          <TableCell>{item?.salary}</TableCell>{" "}
+                          <TableCell>
+                            {["Edit", "Delete"]?.map((btnName) => (
+                              <Button
+                                onClick={() => handleButton(btnName, item)}
+                              >
+                                {btnName}
+                              </Button>
+                            ))}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
+          </Box>
+        </Box>
       </Box>
     </>
   );

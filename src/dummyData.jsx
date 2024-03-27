@@ -9,6 +9,120 @@ export const personalInfo = [
   { field: "Git", info: "https://github.com/Poize93" },
 ];
 
+export const myReads = [
+  {
+    name: "Corporate Chanakaya",
+    image:
+      "https://www.bookganga.com/eBooks/Content/images/books/befd872a89574f2a92395ea732c04ccc.jpg",
+    genre: "Fictional",
+    By: "RadhaKrishanan Pillai",
+    year: "2024",
+  },
+  {
+    name: "I too had a Love Story",
+    image:
+      "https://m.media-amazon.com/images/I/81ilCcnwayL._AC_UF1000,1000_QL80_.jpg",
+    genre: "Fictional",
+    By: "Ravinder Singh",
+    year: "2024",
+  },
+
+  {
+    name: "Can Love Happen Twice?",
+    image: "https://tagon.co.in/images/large/30293.jpg",
+    genre: "Fictional",
+    By: "Ravinder Singh",
+    year: "2024",
+  },
+  {
+    name: "Inner Engineering",
+    image:
+      "https://m.media-amazon.com/images/I/71cCPf-r5ML._AC_UF1000,1000_QL80_.jpg",
+    genre: "Philosophical",
+    By: "Sadguru",
+    year: "2024",
+  },
+  {
+    name: "Stranger , Triology",
+    image:
+      "https://m.media-amazon.com/images/I/717bYLC2SHL._AC_UF1000,1000_QL80_.jpg",
+    genre: "Fictional",
+    By: "Novoneel Chakraborty",
+    year: "2024",
+  },
+  {
+    name: "Who Moved My Cheese?",
+    image:
+      "https://m.media-amazon.com/images/I/71vfjx-h4wL._AC_UF894,1000_QL80_.jpg",
+    genre: "Fictional",
+    By: "Dr Spencer Johnson",
+    year: "2023",
+  },
+  {
+    name: "21 lessons for 21st century",
+    image: "https://m.media-amazon.com/images/I/41SxL78DpvL.jpg",
+    genre: "Fictional",
+    By: "Yuval Noah Hrari",
+    year: "2023",
+  },
+  {
+    name: "Homo Deus",
+    image:
+      "https://static01.nyt.com/images/2017/02/16/arts/16BOOKHARARI/16BOOKHARARI-superJumbo-v2.jpg",
+    genre: "Fictional",
+    By: "Yuval Noah Hrari",
+    year: "2023",
+  },
+  {
+    name: "India Since Independence",
+    image:
+      "https://cdn.kobo.com/book-images/b7474ade-fd83-4a62-b03a-bdb5467143ec/1200/1200/False/india-since-independence-1.jpg",
+    genre: "Fictional",
+    By: "Bipin Chandra",
+    year: "2023",
+  },
+  {
+    name: "Doglapan",
+    image:
+      "https://www.crossword.in/cdn/shop/products/getimage_7fe57b12-437e-40fc-a49c-70483e7006a8.jpg?v=1678464011",
+    genre: "Fictional",
+    By: "AShneer Grover",
+    year: "2023",
+  },
+  {
+    name: "5 Point Someone",
+    image:
+      "https://m.media-amazon.com/images/I/71dFdtt1+UL._AC_UF1000,1000_QL80_.jpg",
+    genre: "Fictional",
+    By: "Chetan Bhagat",
+    year: "2023",
+  },
+  {
+    name: "My Gita",
+    image:
+      "https://rukminim2.flixcart.com/blobio/400/400/imr-201908/blobio-imr-201908_8a3eb334f25c48fb982e8165c9278994.jpeg?q=90",
+    genre: "Fictional",
+    By: "DevDutt Pattanaik",
+    year: "2023",
+  },
+  {
+    name: "Devlok Triology",
+    image:
+      "https://cdn.penguin.co.in/wp-content/uploads/2023/11/9780143445494.jpg",
+    genre: "Fictional",
+    By: "DevDutt Pattanaik",
+    year: "2023",
+  },
+  {
+    name: "12th Fail",
+    image:
+      "https://m.media-amazon.com/images/I/81QOMjpuQpL._AC_UF1000,1000_QL80_.jpg",
+    genre: "Fictional",
+    By: "Anurag Pathak",
+    year: "2023",
+  },
+];
+
 export const Exprience = [
   {
     duration: "June 2022-Present",
