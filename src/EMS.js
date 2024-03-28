@@ -32,7 +32,12 @@ export default function EMS() {
     });
   };
 
-  const hostName = "http://localhost:3001";
+  const isLocalActive = true;
+
+  const hostName =
+    window.location.hostname?.includes("localhost") && isLocalActive
+      ? process.env.REACT_APP_HOST_NAME_LOCAL
+      : process.env.REACT_APP_HOST_NAME_LIVE;
 
   const addEmployee = async () => {
     try {

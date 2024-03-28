@@ -7,6 +7,14 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
   const navigate = useNavigate();
   const storeTokenInLS = useData();
 
+  const isLocalActive = true;
+  const hostName =
+    !window.location.hostname?.includes("localhost") && isLocalActive
+      ? process.env.REACT_APP_HOST_NAME_LOCAL
+      : process.env.REACT_APP_HOST_NAME_LIVE;
+
+  console.log(window.location, "hhhhhhhhhhh");
+
   const [registrationDetails, setRegistrationDetails] = useState({
     Name: "",
     Email: "",
@@ -15,10 +23,6 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
   });
 
   const [registrationStatus, setRegistrationStatus] = useState(true);
-
-  const hostName = "http://localhost:3001";
-
-  console.log(process.env, "process", hostName);
 
   const registerFunction = () => {
     const fetchFunction = async () => {
