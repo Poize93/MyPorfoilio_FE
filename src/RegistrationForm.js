@@ -7,7 +7,7 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
   const navigate = useNavigate();
   const storeTokenInLS = useData();
 
-  const url = "https://poizerahul.netlify.app";
+  const url = window.location;
   const parsedUrl = new URL(url);
 
   const hostName = [
@@ -16,6 +16,14 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
   ]?.includes(parsedUrl?.host)
     ? process.env.REACT_APP_HOST_NAME_LIVE
     : process.env.REACT_APP_HOST_NAME_LOCAL;
+
+  console.log(
+    ["localhost:8080", "https://poizerahul.netlify.app"]?.includes(
+      parsedUrl?.host
+    ),
+    "temp",
+    parsedUrl?.host
+  );
 
   const [registrationDetails, setRegistrationDetails] = useState({
     Name: "",
