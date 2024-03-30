@@ -7,13 +7,15 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
   const navigate = useNavigate();
   const storeTokenInLS = useData();
 
-  const isLocalActive = true;
-  const hostName =
-    !window.location.hostname?.includes("localhost") && isLocalActive
-      ? process.env.REACT_APP_HOST_NAME_LOCAL
-      : process.env.REACT_APP_HOST_NAME_LIVE;
+  const url = "https://poizerahul.netlify.app";
+  const parsedUrl = new URL(url);
 
-  console.log(window.location, "hhhhhhhhhhh");
+  const hostName = [
+    "localhost:8080",
+    "https://poizerahul.netlify.app",
+  ]?.includes(parsedUrl?.host)
+    ? process.env.REACT_APP_HOST_NAME_LIVE
+    : process.env.REACT_APP_HOST_NAME_LOCAL;
 
   const [registrationDetails, setRegistrationDetails] = useState({
     Name: "",

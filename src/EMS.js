@@ -32,12 +32,15 @@ export default function EMS() {
     });
   };
 
-  const isLocalActive = true;
+  const url = "https://poizerahul.netlify.app";
+  const parsedUrl = new URL(url);
 
-  const hostName =
-    window.location.hostname?.includes("localhost") && isLocalActive
-      ? process.env.REACT_APP_HOST_NAME_LOCAL
-      : process.env.REACT_APP_HOST_NAME_LIVE;
+  const hostName = [
+    "localhost:8080",
+    "https://poizerahul.netlify.app",
+  ]?.includes(parsedUrl?.host)
+    ? process.env.REACT_APP_HOST_NAME_LIVE
+    : process.env.REACT_APP_HOST_NAME_LOCAL;
 
   const addEmployee = async () => {
     try {

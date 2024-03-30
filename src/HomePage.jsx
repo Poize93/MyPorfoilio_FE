@@ -1,11 +1,15 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { Skills, personalInfo, education, Exprience } from "./dummyData";
+import { useNavigate } from "react-router-dom";
 
 // also show salary
 // resume pdf download
 
 export default function HomePage() {
+  const navigate = useNavigate();
+  const isLoggedIn = window.localStorage.getItem("token");
+
   return (
     <Box style={{ padding: "2% 5%" }}>
       <Typography sx={{ fontWeight: "bold", fontSize: "54px" }}>
@@ -38,6 +42,13 @@ export default function HomePage() {
                 <a href={item?.info} target="_blank">
                   {item?.info}
                 </a>
+              ) : item?.field === "Contact" && !isLoggedIn ? (
+                <Box
+                  onClick={() => navigate("/")}
+                  style={{ color: "red", cursor: "pointer" }}
+                >
+                  Login Required
+                </Box>
               ) : (
                 item?.info
               )}

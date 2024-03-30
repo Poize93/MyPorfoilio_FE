@@ -19,6 +19,10 @@ export default function NavBar({ setPopUp }) {
     { name: "EMS", link: "/ems" },
     { name: "Contact Me", link: "/contactMe" },
     { name: "Interests", link: "interests" },
+    {
+      name: "Resume",
+      link: "https://drive.google.com/file/d/1C4PoHcjGqhlzjbBNpCw3Bg_ceTlUlh_Z/view",
+    },
   ];
   return (
     <nav
@@ -52,6 +56,7 @@ export default function NavBar({ setPopUp }) {
                   !isLoggedIn && setPopUp(true);
                 }}
                 className="nav-link"
+                target={item?.name === "Resume" && isLoggedIn && "_blank"}
               >
                 {item?.name}
               </Link>
