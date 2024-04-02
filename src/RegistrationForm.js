@@ -1,29 +1,40 @@
 import React, { useState } from "react";
 import { Typography, TextField, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useData } from "./contextFolder/localData";
+import { hostName } from "./dummyData";
+import { useDispatch, useSelector } from "react-redux";
+import { RegistrationActionTypes, LogInTypes } from "./Redux/action";
 
 function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
   const navigate = useNavigate();
-  const storeTokenInLS = useData();
-
-  const url = window.location;
-  const parsedUrl = new URL(url);
-
-  const hostName = [
-    "localhost:8080",
-    "https://poizerahul.netlify.app",
-  ]?.includes(parsedUrl?.host)
-    ? process.env.REACT_APP_HOST_NAME_LIVE
-    : process.env.REACT_APP_HOST_NAME_LOCAL;
+  const dispatch = useDispatch();
+  const Registrations = useSelector((state) => state?.Registrations);
+  const LogIn = useSelector((state) => state.LogInDetails);
 
   console.log(
-    ["localhost:8080", "https://poizerahul.netlify.app"]?.includes(
-      parsedUrl?.host
-    ),
-    "temp",
-    parsedUrl?.host
+    LogIn,
+    "LogInLogIn",
+    useSelector((state) => state)
   );
+
+  // const storeTokenInLS = useData();
+
+  // const url = window.location;
+  // const parsedUrl = new URL(url);
+
+  // const hostName = ["localhost:8080", "poizerahul.netlify.app"]?.includes(
+  //   parsedUrl?.host
+  // )
+  //   ? process.env.REACT_APP_HOST_NAME_LIVE
+  //   : process.env.REACT_APP_HOST_NAME_LOCAL;
+
+  // console.log(
+  //   ["localhost:8080", "poizerahul.netlify.app"]?.includes(parsedUrl?.host),
+  //   "temp",
+  //   parsedUrl?.host
+  // );
+
+  console.log(hostName, "hostName in registration page");
 
   const [registrationDetails, setRegistrationDetails] = useState({
     Name: "",
@@ -34,50 +45,52 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
 
   const [registrationStatus, setRegistrationStatus] = useState(true);
 
-  const registerFunction = () => {
-    const fetchFunction = async () => {
-      const response = await fetch(`${hostName}/registration`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(registrationDetails),
-      });
-
-      response.json().then((res) => {
-        window.localStorage.setItem("token", res?.Token);
-        setLoggedInAccountStatus(true);
-        !!res?.Token && navigate("/home");
-      });
-    };
-    try {
-      fetchFunction();
-    } catch (err) {}
+  const registerFunction = async () => {
+    await dispatch({
+      type: RegistrationActionTypes.REGISTRATION,
+      payload: registrationDetails,
+    });
+    if (Registrations?.data?.status === 200) {
+      await window.localStorage.setItem("token", Registrations?.data?.Token);
+      await setLoggedInAccountStatus(true);
+      (await !!Registrations?.data?.Token) && navigate("/home");
+    }
   };
 
-  // const [loggedInDetails, setLoggedInDetails] = useState({});
+  const loginFunction = async () => {
+    // const fetchFunction = async () => {
+    //   const loggingIn = fetch(`${hostName}/login`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({
+    //       Email: registrationDetails?.Email,
+    //       Password: registrationDetails?.Password,
+    //     }),
+    //   });
 
-  const loginFunction = () => {
-    const fetchFunction = async () => {
-      const loggingIn = fetch(`${hostName}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+    //   loggingIn.then((res) =>
+    //     res.json().then((out) => {
+    //       window.localStorage.setItem("token", out?.Token);
+    //       setLoggedInAccountStatus(true);
+    //       !!out?.Token && navigate("/home");
+    //     })
+    //   );
+    // };
+    try {
+      await dispatch({
+        type: LogInTypes?.LOGIN,
+        payload: {
           Email: registrationDetails?.Email,
           Password: registrationDetails?.Password,
-        }),
+        },
       });
 
-      loggingIn.then((res) =>
-        res.json().then((out) => {
-          window.localStorage.setItem("token", out?.Token);
-          setLoggedInAccountStatus(true);
-          !!out?.Token && navigate("/home");
-        })
-      );
-    };
-    try {
-      fetchFunction();
+      console.log(LogIn, "RegistratwwionsRegistrations");
+      if (LogIn?.data?.status === 200) {
+        await window.localStorage.setItem("token", LogIn?.data?.Token);
+        await setLoggedInAccountStatus(true);
+        (await !!LogIn?.data?.Token) && navigate("/home");
+      }
     } catch (err) {
       console.error(err);
     }
@@ -139,39 +152,45 @@ function RegistrationForm({ setLoggedInAccountStatus, setPopUp }) {
           </>
         ))}
       </Box>
-      <Box>
-        <Button
-          disabled={
-            registrationStatus
-              ? registrationDetails?.Name &&
-                registrationDetails?.Email &&
-                registrationDetails?.Password &&
-                registrationDetails?.Phone &&
-                isValidEmail(registrationDetails?.Email)
+      {!!Registrations?.loading || !!LogIn?.loading ? (
+        <h3>Loading...</h3>
+      ) : (
+        <Box>
+          <Button
+            disabled={
+              registrationStatus
+                ? registrationDetails?.Name &&
+                  registrationDetails?.Email &&
+                  registrationDetails?.Password &&
+                  registrationDetails?.Phone &&
+                  isValidEmail(registrationDetails?.Email)
+                  ? false
+                  : true
+                : registrationDetails?.Email &&
+                  registrationDetails?.Password &&
+                  isValidEmail(registrationDetails?.Email)
                 ? false
                 : true
-              : registrationDetails?.Email &&
-                registrationDetails?.Password &&
-                isValidEmail(registrationDetails?.Email)
-              ? false
-              : true
-          }
-          variant="contained"
-          type="submit"
-          onClick={registrationStatus ? registerFunction : loginFunction}
-          className="m-2"
-        >
-          {" "}
-          {registrationStatus ? "Sign In" : "Log In"}
-        </Button>
-        <Button
-          variant="contained"
-          className="m-2"
-          onClick={() => navigate("/home")}
-        >
-          Explore
-        </Button>
-      </Box>
+            }
+            variant="contained"
+            type="submit"
+            onClick={() =>
+              registrationStatus ? registerFunction() : loginFunction()
+            }
+            className="m-2"
+          >
+            {" "}
+            {registrationStatus ? "Register" : "Log In"}
+          </Button>
+          <Button
+            variant="contained"
+            className="m-2"
+            onClick={() => navigate("/home")}
+          >
+            Explore
+          </Button>
+        </Box>
+      )}
       <Button
         onClick={() => {
           setRegistrationStatus(!registrationStatus);

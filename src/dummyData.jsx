@@ -1,3 +1,16 @@
+const url = window.location;
+const parsedUrl = new URL(url);
+
+export const hostName = ["localhost:8080", "poizerahul.netlify.app"]?.includes(
+  parsedUrl?.host
+)
+  ? process.env.REACT_APP_HOST_NAME_LIVE
+  : process.env.REACT_APP_HOST_NAME_LOCAL;
+
+// export const hostName= process.env.REACT_APP_HOST_NAME_LIVE
+
+console.log(hostName, "hostName in dummyData");
+
 export const personalInfo = [
   {
     field: "LinkedIn",
